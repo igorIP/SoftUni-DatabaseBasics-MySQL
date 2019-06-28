@@ -3,6 +3,7 @@
 use soft_uni;
 
 #1. Employee Address
+
 select	e.employee_id,
 		e.job_title,
         a.address_id,
@@ -13,7 +14,9 @@ on e.address_id = a.address_id
 order by e.address_id
 limit 5;
 
+
 #2.Addresses with Towns
+
 select	e.first_name,
 		e.last_name,
         t.name town,
@@ -25,8 +28,10 @@ select	e.first_name,
     on a.town_id = t.town_id
 	order by e.first_name, e.last_name
 	limit 5;
+	
      
 #3.Sales Employee
+
 select	e.employee_id,
 		e.first_name,
         e.last_name,
@@ -36,8 +41,10 @@ select	e.employee_id,
         on e.department_id = d.department_id
         where d.name = 'Sales'
         order by e.employee_id desc;
+	
 
 #4.Employee Departments
+
 select	e.employee_id,
 		e.first_name,
         e.salary,
@@ -49,7 +56,9 @@ select	e.employee_id,
     order by d.department_id desc
     limit 5;
     
+    
 #5.Employees Without Project
+
 select	e.employee_id,
 		ep.project_id,
 		e.first_name
@@ -59,8 +68,10 @@ select	e.employee_id,
         where ep.project_id is null
         order by e.employee_id desc
 		limit 3;
+		
         
 #6.Employees Hired After
+
 select	e.first_name, e.last_name,e.hire_date,d.name dept_name
         from employees as `e`
 		join departments as `d` on e.department_id = d.department_id
@@ -69,7 +80,8 @@ select	e.first_name, e.last_name,e.hire_date,d.name dept_name
         order by e.hire_date asc;
         
         
-#7. Employees with Project        
+#7. Employees with Project    
+
 select	e.employee_id,
 		e.first_name,
         p.name project_name
@@ -102,7 +114,9 @@ where
 	e.employee_id = 24
 order by p.name;
 
-#Employee Manager
+
+#9.Employee Manager
+
 select
 	e.employee_id,
     e.first_name,
@@ -116,9 +130,11 @@ where
 	e.manager_id in (3,7)
 order by e.first_name;
 
+
 #10. Employee Summary
+
 select
-	e.employee_id,
+    e.employee_id,
     concat(e.first_name, ' ', e.last_name) as employee_name,
     concat(em.first_name, ' ', em.last_name ) as manager_name,
     d.name as department_name
@@ -132,19 +148,21 @@ from
     limit 5;
     
     
-#Min Average Salary
+#11.Min Average Salary
+
 select min(min_average_salary) as min_average_salary
 from
 	(
     select  
-		avg(e.salary) as min_average_salary
+	avg(e.salary) as min_average_salary
     from
-		employees as `e`
+	employees as `e`
 	group by e.department_id
     ) as `e`;
     
     
 #12. Highest Peaks in Bulgaria   
+
 select
 	c.country_code,
 	m.mountain_range,
@@ -161,7 +179,9 @@ where
 	c.country_code = 'BG' and p.elevation > 2835
 order by p.elevation desc;
 
+
 #13.Count Mointain Ranges
+
 select 
 	c.country_code,
     count(*) as mountain_range
@@ -177,7 +197,9 @@ group by
 	c.country_code
 order by mountain_range desc;
 
+
 #14.Countries With Rivers
+
 select 
 	c.country_name,
     r.river_name
@@ -190,7 +212,9 @@ where c.continent_code = 'AF'
 order by c.country_name
 limit 5;
 
+
 #15.*Continents and Currencies
+
 select
 	c.continent_code,
     c.currency_code,
@@ -213,12 +237,15 @@ order by c.continent_code, c.currency_code;
 	
 
 #16.Countries Without Mountains
+
 SELECT COUNT(if(mc.mountain_id is null, 1, null)) as country_count
 from
 	countries as `c`
 		left join mountains_countries as `mc` on c.country_code = mc.country_code;
+		
 	
 #17.Highest Peak and Longest River by Country
+
 select 
 	c.country_name,
     max(p.elevation) highest_peak_elevation,
